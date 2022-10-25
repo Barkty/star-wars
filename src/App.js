@@ -1,7 +1,23 @@
 import logo from './logo.svg';
 import './App.css';
+import { useEffect } from 'react';
+import { getFilms } from './services/films.service';
 
 function App() {
+
+  useEffect(() => {
+    (async function() {
+      try {
+        const res = await getFilms()
+        console.log(res)
+        
+      } catch (error) {
+
+        throw error
+
+      }
+    })()
+  }, [])
   return (
     <div className="App">
       <header className="App-header">
