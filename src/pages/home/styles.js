@@ -18,4 +18,13 @@ export const Logo = styled.div`
         height: 100%;
         object-fit: cover;
     }
+
+    @media screen and (max-width: 426px){
+        left: 35%;
+    }
+    
+    @media screen and (min-width: 426px) and (max-width: 991px){
+        left: 40%;
+    }
+
 `
