@@ -132,17 +132,16 @@ export const SelectContainer = styled.div`
 
             .options_list {
                 width: 45%;
-                height: 93px !important;
+                height: 93px;
                 display: flex;
                 flex-direction: row;
                 align-items: center;
                 padding: 0px;
                 gap: 16px;
-                height: 73px;
 
                 & > div {
                     width: 100%;
-                    height: auto;
+                    height: 93px;
                     display: flex;
                     flex-direction: row;
                     align-items: flex-start;
@@ -207,22 +206,23 @@ export const SelectContainer = styled.div`
                 }
             }
         }
-
-        optgroup {
-
-        }
-
-        option {
-            font-family: 'Open Sans', sans-serif;
-            font-style: normal;
-            font-weight: 700;
-            font-size: 16px;
-            line-height: 0px;
-            display: flex;
-            align-items: center;
-            letter-spacing: 0.1em;
-            color: #B1B1B1;
-            
-        }
     }
+`
+
+export const OptionPlaceholder = styled.div`
+    width: 45%;
+    height: 93px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+
+    .movie_info {
+        height: 93px;
+        width: 251px;
+        margin-top: 25px;
+        color: #ffffff;
+    }
+
 `
