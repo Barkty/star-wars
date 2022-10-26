@@ -11,11 +11,6 @@ const API = axios.create({
 });
 
 API.interceptors.request.use((request) => {
-
-  // const token = sessionStorage.getItem("token");
-  // if (token) {
-  //   request.headers.Authorization = `Bearer ${token}`;
-  // }
   
   return request;
 });
