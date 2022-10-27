@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import starWars from 'assets/star_wars.png'
+import marque from 'assets/marquee.png'
 
 export const Container = styled.div`
     width: 100%;
@@ -10,6 +11,11 @@ export const Container = styled.div`
     align-items: flex-start;
     justify-content: space-between;
     padding: 50px 36px 0 36px;
+
+    @media screen and (max-width: 991px){
+        flex-direction: column-reverse;
+        align-content: center;
+    }
 `
 
 export const Logo = styled.div`
@@ -45,6 +51,11 @@ export const Cinema = styled.div`
     background-repeat: no-repeat;
     background-size: ${(props) => (props.size ? 'cover' : 'contain')};
     background-clip: border-box;
+
+    .wrap {
+        width: 100%;
+        height: auto;
+    }
 
     .title {
         font-family: 'Open Sans', sans-serif;
@@ -85,7 +96,19 @@ export const Cinema = styled.div`
             height: 386px;
             background: #FFFF00;
             border-radius: 10px;
+            border: 5px solid #FFFF00;
             padding: 5px;
+            background-image: url(${marque});
+            background-repeat: no-repeat;
+            background-size: cover;
+
+            .marquee-container {
+                top: 88%;
+                background: #000;
+                color: #fff;
+                cursor: pointer;
+                height: 30px;
+            }
 
             img {
                 width: 100%;
@@ -251,6 +274,32 @@ export const Cinema = styled.div`
             }
         }
     }
+
+    @media screen and (max-width: 991px){
+        width: 100vw;
+        margin-left: -7rem;
+        background-position: 70% top;
+        background-size: cover;
+        position: relative;
+        left: 40px;
+
+        .title {
+            margin-left: 8rem;
+        }
+
+        .star_wars {
+            width: 287px;
+            height: 173px;
+            top: 13rem;
+            left: 25%;
+        }
+    }
+
+    @media screen and (max-width: 425px){
+        .title {
+            margin-left: 4rem;
+        }
+    }
 `
 
 export const SelectContainer = styled.div`
@@ -386,6 +435,16 @@ export const SelectContainer = styled.div`
                 }
             }
         }
+    }
+
+    @media screen and (max-width: 991px){
+        left: 5rem;
+        max-width: 100%;
+        width: 594px;
+    }
+    
+    @media screen and (max-width: 424px){
+        left: 0rem;
     }
 `
 

@@ -14,6 +14,7 @@ import { FaFemale, FaMale } from 'react-icons/fa'
 import { Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
 import formatter from 'format-number'
 import Movie from 'components/card/Movie'
+import Marquee from "react-fast-marquee";
 
 const Home = () => {
   const [movies, setMovies] = useState([])
@@ -96,50 +97,54 @@ const Home = () => {
               }}
             >
             <Cinema size={selected ? 'cover' : null}>
-              <h2 className='title'>Star Wars Movies</h2>
-              <SelectContainer onClick={()=>{setSelect(!select)}}>
-                <div className='select'>
-                  <div className='select_cta'>
-                    <p>{film.length === 0 ? ( 'Select movies' ) : film?.title}</p>
-                    <FiChevronDown/>
-                  </div>
-                  {select && (
-                    <div className='options_wrap'>
-                      {(select === true && movies?.results?.length === 0) && (
-                        <Movie.Placeholder count={6}/>
-                      )}
-                      {(movies?.results?.length > 0) && (movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
-                        <Option key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
-                          <motion.div
-                            initial={{ opacity: 0, scale: 0.5 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{
-                                duration: 2,
-                                delay: 0.5,
-                                ease: [0, 0.71, 0.2, 1.01]
-                                }}
-                            >
-                            <div className='movie_image'>
-                                <img alt='Movie' src={video}/> 
-                            </div>
-                            <div className='movie_info'>
-                                <p className='title'>{movie?.title}</p>
-                                <p className='info'>{movie?.opening_crawl.length > 52 ? `${movie?.opening_crawl.substring(0, 50)}...` : movie?.opening_crawl}</p>
-                            </div>
-                          </motion.div>
-                        </Option>
-                      )))}
+              <div className='wrap'>
+                <h2 className='title'>Star Wars Movies</h2>
+                <SelectContainer onClick={()=>{setSelect(!select)}}>
+                  <div className='select'>
+                    <div className='select_cta'>
+                      <p>{film.length === 0 ? ( 'Select movies' ) : film?.title}</p>
+                      <FiChevronDown/>
                     </div>
-                  )}
-                </div>
-              </SelectContainer>
+                    {select && (
+                      <div className='options_wrap'>
+                        {(select === true && movies?.results?.length === 0) && (
+                          <Movie.Placeholder count={6}/>
+                        )}
+                        {(movies?.results?.length > 0) && (movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
+                          <Option key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
+                            <motion.div
+                              initial={{ opacity: 0, scale: 0.5 }}
+                              animate={{ opacity: 1, scale: 1 }}
+                              transition={{
+                                  duration: 2,
+                                  delay: 0.5,
+                                  ease: [0, 0.71, 0.2, 1.01]
+                                  }}
+                              >
+                              <div className='movie_image'>
+                                  <img alt='Movie' src={video}/> 
+                              </div>
+                              <div className='movie_info'>
+                                  <p className='title'>{movie?.title}</p>
+                                  <p className='info'>{movie?.opening_crawl.length > 52 ? `${movie?.opening_crawl.substring(0, 50)}...` : movie?.opening_crawl}</p>
+                              </div>
+                            </motion.div>
+                          </Option>
+                        )))}
+                      </div>
+                    )}
+                  </div>
+                </SelectContainer>
+              </div>
               <div className='star_wars'>
                 <img alt='Star wars' src={starWars}/>
               </div>
               {selected && (
                 <div className='film'>
                   <div className='marquee_card'>
-                    <img src={marque} alt='Marquee'/>
+                    <Marquee pauseOnHover={true} gradientColor={false}>
+                      {film.opening_crawl}
+                    </Marquee>
                   </div>
                   {casts.length === 0 && (
                     <Stack spacing={2} width='660px' height='93px'>

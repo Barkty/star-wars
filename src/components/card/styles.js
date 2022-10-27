@@ -22,7 +22,7 @@ export const ReviewCard = styled.div`
     }
 
     .video_frame {
-        width: 419px;
+        width: 100%;
         height: 341px;
         background: #3A424E;
         border-radius: 30px;
@@ -151,6 +151,35 @@ export const ReviewCard = styled.div`
         left: .6rem;
         width: 347px;
     }
+
+    @media screen and (max-width: 991px){
+        width: 355.95px;
+        height: 574px;
+        margin-top: 3rem;
+        margin-bottom: 60px;
+
+        .video_frame {
+            top: 3.5rem;
+
+            .video {
+
+
+                .action_container {
+                    padding: 0 27px 25px 27px;
+                }
+            }
+        }
+
+        .movie_title {
+            font-size: 14px;
+            top: 5rem;
+        }
+
+        .movie_info {
+            width: 289px;
+            top: 6rem;
+        }
+    }
 `
 
 export const ButtonFilled = styled.button`
@@ -175,6 +204,12 @@ export const ButtonFilled = styled.button`
     color: #000000;
     cursor: pointer;
     text-transform: uppercase;
+
+    @media screen and (max-width: 991px){
+        width: 97.56px;
+        height: 21.34px;
+        font-size: 11px;
+    }
 `
 
 export const ButtonOutlined = styled.button`
@@ -196,4 +231,10 @@ export const ButtonOutlined = styled.button`
     color: #FFFFFF;
     cursor: pointer;
     text-transform: uppercase;
+
+    @media screen and (max-width: 991px){
+        width: 97.56px;
+        height: 21.34px;
+        font-size: 11px;
+    }
 `

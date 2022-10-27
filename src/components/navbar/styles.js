@@ -18,6 +18,10 @@ export const NavbarList = styled.ul`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+
+    @media screen and (max-width: 991px){
+        display: none;
+    }
 `
 
 export const NavbarItem = styled.li`
