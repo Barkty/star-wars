@@ -138,6 +138,43 @@ export const Cinema = styled.div`
             height: 400px;
             width: 731px;
 
+            .filter {
+                width: 100%;
+                border: none;
+                background-color: #000;
+                height: 39px;
+                margin-bottom: 20px;
+
+                p {
+
+                    font-family: 'Open Sans', sans-serif;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 0px;
+                    display: flex;
+                    align-items: center;
+                    letter-spacing: 0.02em;
+                    color: #FFFFFF;
+
+                    span {
+
+                        margin-right: 10px;
+                        margin-left: 10px;
+                        cursor: pointer;
+
+                        svg {
+                            background: #D9D9D9;
+                            border-radius: 50px;
+                            width: 27px;
+                            height: 27px;
+                            color: #000000;
+                        }
+                    }
+                    
+                }
+            }
+
             table {
                 width: 100%;
                 border: none;
@@ -352,6 +389,82 @@ export const SelectContainer = styled.div`
     }
 `
 
+export const Option = styled.div`
+    width: 45%;
+    height: 93px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px;
+    gap: 16px;
+
+    & > div {
+        width: 100%;
+        height: 93px;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .movie_image {
+        width: 42px;
+        height: 42px;
+        background: #D9D9D9;
+        border: 1px solid #0E0F10;
+        border-radius: 100%;
+        margin-right: 1rem;
+        margin-top: 1rem;
+        
+        img {
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+            border-radius: 100%;
+        }
+    }
+
+    .movie_info {
+        height: 93px;
+        width: 251px;
+        margin-top: 25px;
+        color: #ffffff;
+
+        &:hover {
+            color: #FFFF00;
+        }
+
+        .title {
+            font-family: 'Open Sans', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 16px;
+            line-height: 0px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.02em;
+            text-transform: uppercase;
+            color: inherit;
+            margin: 0 0 10px 0;
+        }
+
+        .info {
+            font-family: 'Open Sans', sans-serif;
+            font-style: italic;
+            font-weight: 300;
+            font-size: 16px;
+            line-height: 22px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.02em;
+            color: inherit;
+            width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+`
+
 export const OptionPlaceholder = styled.div`
     width: 45%;
     height: 93px;
@@ -368,4 +481,14 @@ export const OptionPlaceholder = styled.div`
         color: #ffffff;
     }
 
+`
+
+export const ErrorMessage = styled.span`
+    color: #ffff00;
+    width: 100%;
+    position: relative;
+    font-size: 16px;
+    top: 5px;
+    left: 5px;
+    text-align: center;
 `

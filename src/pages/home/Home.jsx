@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Cinema, Container, OptionPlaceholder, SelectContainer } from './styles'
+import { Cinema, Container, Option, SelectContainer } from './styles'
 import { motion } from "framer-motion"
 import Layout from 'layout/Layout'
 import Reviews from 'components/card/Reviews'
@@ -9,9 +9,11 @@ import video from 'assets/video.png'
 import { getCharacters, getFilm, getFilms } from 'services/films.service'
 import { useState } from 'react'
 import { FiChevronDown } from 'react-icons/fi'
+import { HiOutlineRefresh } from 'react-icons/hi'
 import { FaFemale, FaMale } from 'react-icons/fa'
-import _ from 'lodash';
 import { Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, TableFooter, TableHead, TablePagination, TableRow } from '@mui/material';
+import formatter from 'format-number'
+import Movie from 'components/card/Movie'
 
 const Home = () => {
   const [movies, setMovies] = useState([])
@@ -39,7 +41,6 @@ const Home = () => {
       const cast = await getCharacters(characters)
       setFilm(res)
       setCasts(cast)
-      console.log(res)
       console.log(cast)
     } catch (error) {
 
@@ -48,6 +49,7 @@ const Home = () => {
   }
 
   let num = 1
+  let total_heights = 0
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -63,6 +65,12 @@ const Home = () => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
+
+    const filterGender = async (gender) => {
+      await fetchFilm()
+      const filtered = casts?.filter(cast => cast.gender === gender)
+      setCasts(filtered)
+    }
 
   return (
     <Layout>
@@ -97,29 +105,29 @@ const Home = () => {
                   </div>
                   {select && (
                     <div className='options_wrap'>
-                      {(movies?.results?.length === 0) && (
-                        <MoviePlaceholder count={6}/>
+                      {(select === true && movies?.results?.length === 0) && (
+                        <Movie.Placeholder count={6}/>
                       )}
                       {(movies?.results?.length > 0) && (movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
-                        <div className='options_list' key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
+                        <Option key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
                           <motion.div
                             initial={{ opacity: 0, scale: 0.5 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{
-                              duration: 2,
-                              delay: 0.5,
-                              ease: [0, 0.71, 0.2, 1.01]
+                                duration: 2,
+                                delay: 0.5,
+                                ease: [0, 0.71, 0.2, 1.01]
                                 }}
                             >
                             <div className='movie_image'>
-                              <img alt='Movie' src={video}/> 
+                                <img alt='Movie' src={video}/> 
                             </div>
                             <div className='movie_info'>
-                              <p className='title'>{movie.title}</p>
-                              <p className='info'>{movie.opening_crawl.length > 52 ? `${movie.opening_crawl.substring(0, 50)}...` : movie.opening_crawl}</p>
+                                <p className='title'>{movie?.title}</p>
+                                <p className='info'>{movie?.opening_crawl.length > 52 ? `${movie?.opening_crawl.substring(0, 50)}...` : movie?.opening_crawl}</p>
                             </div>
                           </motion.div>
-                        </div>
+                        </Option>
                       )))}
                     </div>
                   )}
@@ -133,11 +141,19 @@ const Home = () => {
                   <div className='marquee_card'>
                     <img src={marque} alt='Marquee'/>
                   </div>
+                  {casts.length === 0 && (
+                    <Stack spacing={2} width='660px' height='93px'>
+                      <Skeleton variant="text" sx={{ fontSize: '1rem', backgroundColor: 'rgba(58, 63, 70, 0.864)' }}/>
+                      <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
+                    </Stack>
+                  )}
                   <p className='selected_title'>{film.title}</p>
                   <p className='selected_crawl'>{film.opening_crawl}</p>
                   <p className='characters'>Characters</p>
                   <div className='selected_table'>
-
+                        <div className='filter'>
+                          <p>Filter by: Male <span onClick={()=>{filterGender('male')}}><FaMale/></span> Female: <span onClick={()=>{filterGender('female')}}><FaFemale/></span> All <span onClick={()=> {fetchFilm()}}><HiOutlineRefresh/></span></p>
+                        </div>
                         {casts.length > 0 ? (
                           <TableContainer component={Paper} sx={{backgroundColor: 'inherit'}}>
                             <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -150,23 +166,22 @@ const Home = () => {
                                 </TableRow>
                               </TableHead>
                               <TableBody>
-                              {(rowsPerPage > 0 ? casts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : casts)?.map(row => (
-                                <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                                  <TableCell component="th" scope="row" className='table_head'>{num++}</TableCell>
-                                  <TableCell component="th" scope="row" className='table_name'>{row.name}</TableCell>
-                                  <TableCell component="th" scope="row" className='table_gender'>{row.gender === 'female' ? <FaFemale/> : <FaMale/>}</TableCell>
-                                  <TableCell component="th" scope="row" className='table_gender'>{row.height}in</TableCell>
-                                </TableRow>
-                              ))}
-                              {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                  <TableCell colSpan={6} />
-                                </TableRow>
-                              )}
+                              {(rowsPerPage > 0 ? casts?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage) : casts)?.map(row => {
+                                total_heights += parseInt(row.height)
+                                return (
+                                  <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                    <TableCell component="th" scope="row" className='table_head'>{num++}</TableCell>
+                                    <TableCell component="th" scope="row" className='table_name'>{row.name}</TableCell>
+                                    <TableCell component="th" scope="row" className='table_gender'>{row.gender === 'female' ? <FaFemale/> : <FaMale/>}</TableCell>
+                                    <TableCell component="th" scope="row" className='table_gender'>{row.height}cm</TableCell>
+                                  </TableRow>
+                                )
+                              })}
                               </TableBody>
                               <TableFooter>
                                   <TableRow>
-                                    <TableCell colSpan={3}>Total no of characters: {page * rowsPerPage}</TableCell>
+                                    <TableCell colSpan={3}>Total no of characters: {rowsPerPage - emptyRows}</TableCell>
+                                    <TableCell colSpan={3}>Total height of characters: {formatter({prefix: '', suffix: ''})(Math.floor(total_heights))}cm ({formatter({prefix: '', suffix: ''})(Math.floor(total_heights/0.0328084))}ft/{formatter({prefix: '', suffix: ''})(Math.floor(total_heights/0.3937))}in)</TableCell>
                                   </TableRow>
                               </TableFooter>
                             </Table>
@@ -182,7 +197,13 @@ const Home = () => {
                             />
                           </TableContainer>
                         ) : (
-                          null
+                          <Stack spacing={2} width='660px' height='303px'>
+                            <Skeleton variant="rectangular" sx={{ width: '600px', backgroundColor: 'rgba(58, 63, 70, 0.864)' }}/>
+                            <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
+                            <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
+                            <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
+                            <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
+                          </Stack>
                         )}
                   </div>
                 </div>
@@ -195,15 +216,3 @@ const Home = () => {
 }
 
 export default Home
-
-export const MoviePlaceholder = ({ count = 1 }) => _.range(count).map((index) => (
-  <Stack spacing={2} key={index} width='100%' height='93px'>
-    <OptionPlaceholder>
-      <Skeleton variant="circular" width={40} height={40}/>
-      <div className='movie_info'>
-        <Skeleton variant="text" sx={{ fontSize: '1rem' }} />
-        <Skeleton variant="rectangular" width={210} height={60} />
-      </div>
-    </OptionPlaceholder>
-  </Stack>
-))
