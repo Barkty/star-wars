@@ -293,6 +293,28 @@ export const Cinema = styled.div`
             top: 13rem;
             left: 25%;
         }
+
+        .film {
+            width: 100%;
+            left: 1rem;
+            top: -5rem;
+
+            .marquee_card {
+                width: 100%;
+            }
+
+            .selected_crawl {
+                width: 90%;
+            }
+
+            .selected_table {
+                width: 100%;
+
+                .filter {
+                    width: 92%;
+                }
+            }
+        }
     }
 
     @media screen and (max-width: 425px){

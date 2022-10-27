@@ -60,6 +60,7 @@ const Home = () => {
 
     const handleChangePage = (event, newPage) => {
       setPage(newPage);
+      num += rowsPerPage
     };
 
     const handleChangeRowsPerPage = (event) => {
@@ -142,7 +143,7 @@ const Home = () => {
               {selected && (
                 <div className='film'>
                   <div className='marquee_card'>
-                    <Marquee pauseOnHover={true} gradientColor={false}>
+                    <Marquee pauseOnHover={true} gradientColor={false} speed={12}>
                       {film.opening_crawl}
                     </Marquee>
                   </div>
