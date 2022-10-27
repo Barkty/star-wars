@@ -39,10 +39,11 @@ export const Cinema = styled.div`
     width: calc(90vw - 277px);
     min-height: 921px;
     margin-left: -9rem;
+    margin-bottom: ${(props) => (props.size ? '3.4rem' : '0')};
     background-image: url(${starWars});
-    background-position: right center;
+    background-position: ${(props) => (props.size ? 'right top' : 'right center')};
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: ${(props) => (props.size ? 'cover' : 'contain')};
     background-clip: border-box;
 
     .title {
@@ -69,6 +70,148 @@ export const Cinema = styled.div`
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+    }
+
+    .film {
+        width: fit-content;
+        height: auto;
+        position: relative;
+        left: 14.5rem;
+        top: -15rem;
+
+        .marquee_card {
+            width: 660px;
+            height: 386px;
+            background: #FFFF00;
+            border-radius: 10px;
+            padding: 5px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 9px;
+            }
+        }
+
+        .selected_title {
+            font-family: 'Open Sans', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 0px;
+            text-align: left;
+            letter-spacing: 0.02em;
+            color: #FFFFFF;
+            margin-top: 20px;
+        }
+
+        .selected_crawl {
+            font-family: 'Open Sans', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 19px;
+            letter-spacing: 0.02em;
+            color: #FFFFFF;
+            margin-top: 20px;
+            width: 660px;
+        }
+
+        .characters {
+            font-family: 'Open Sans', sans-serif;
+            font-style: normal;
+            font-weight: 700;
+            font-size: 20px;
+            line-height: 0px;
+            display: flex;
+            align-items: center;
+            letter-spacing: 0.02em;
+            color: #FFFFFF;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .selected_table {
+            height: 400px;
+            width: 731px;
+
+            table {
+                width: 100%;
+                border: none;
+
+                thead, thead tr {
+                    width: 100%;
+                    height: 39px;
+                    background-color: #000;
+                }
+                th, td {
+                    border: none;
+                }
+
+                tr {
+                    display: flex;
+                    flex-direction: row;
+                }
+
+                th {
+                    font-family: 'Open Sans', sans-serif;
+                    font-style: normal;
+                    font-weight: 700;
+                    font-size: 14px;
+                    line-height: 0px;
+                    display: flex;
+                    align-items: center;
+                    letter-spacing: 0.02em;
+                    color: #FFFFFF;
+                }
+
+                .table_head {
+                    width: 100px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: left;
+                    padding-left: 15px;
+                }
+
+                .table_name {
+                    width: 250px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: left;
+                    padding-left: 15px;
+                }
+
+                .table_gender {
+                    width: 170px;
+                    height: 40px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: left;
+                    padding-left: 15px;
+
+                    svg {
+                        background: #D9D9D9;
+                        border-radius: 50px;
+                        width: 27px;
+                        height: 27px;
+                        color: #000000;
+                    }
+                }
+
+                tbody tr {
+                    width: 731px;
+                    height: 39px;
+                    background: #181B20;
+                    border-radius: 2px;
+                    margin-top: -2px;
+                    margin-bottom: 4px;
+                }
+            }
         }
     }
 `

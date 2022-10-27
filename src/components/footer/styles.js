@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import starWars from 'assets/star_wars.png'
 
 export const FooterContainer = styled.div`
     width: 100%;
@@ -8,6 +9,11 @@ export const FooterContainer = styled.div`
     align-items: flex-start;
     justify-content: center;
     padding-top: 10px;
+    background-image: url(${starWars});
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-clip: border-box;
 `
 
 export const FooterList = styled.div`
