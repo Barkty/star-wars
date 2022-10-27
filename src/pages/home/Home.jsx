@@ -4,7 +4,6 @@ import { motion } from "framer-motion"
 import Layout from 'layout/Layout'
 import Reviews from 'components/card/Reviews'
 import starWars from 'assets/logo_big.png'
-import marque from 'assets/marquee.png'
 import video from 'assets/video.png'
 import { getCharacters, getFilm, getFilms } from 'services/films.service'
 import { useState } from 'react'
@@ -42,7 +41,6 @@ const Home = () => {
       const cast = await getCharacters(characters)
       setFilm(res)
       setCasts(cast)
-      console.log(cast)
     } catch (error) {
 
       console.log(error)
