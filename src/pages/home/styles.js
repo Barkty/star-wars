@@ -156,7 +156,7 @@ export const Cinema = styled.div`
                     flex-direction: row;
                 }
 
-                th {
+                th, td {
                     font-family: 'Open Sans', sans-serif;
                     font-style: normal;
                     font-weight: 700;
@@ -203,7 +203,7 @@ export const Cinema = styled.div`
                     }
                 }
 
-                tbody tr {
+                tbody tr, tfoot tr {
                     width: 731px;
                     height: 39px;
                     background: #181B20;
