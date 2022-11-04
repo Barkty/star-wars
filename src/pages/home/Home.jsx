@@ -29,7 +29,7 @@ const Home = () => {
         setMovies(res)
       } catch (error) {
 
-        throw error
+        console.log(error)
 
       }
     })()
