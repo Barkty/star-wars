@@ -21,6 +21,10 @@ const Home = () => {
   const [selected, setSelected] = useState(false)
   const [film, setFilm] = useState([])
   const [casts, setCasts] = useState([])
+  const [castsCopy, setCastsCopy] = useState([])
+  const [globalCasts, setGlobalCasts] = useState([])
+  const [female, setFemale] = useState([])
+  const [male, setMale] = useState([])
 
   useEffect(() => {
     (async function() {
@@ -41,6 +45,8 @@ const Home = () => {
       const cast = await getCharacters(characters)
       setFilm(res)
       setCasts(cast)
+      setCastsCopy(cast)
+      setGlobalCasts(cast)
     } catch (error) {
 
       console.log(error)
@@ -65,12 +71,13 @@ const Home = () => {
       setRowsPerPage(parseInt(event.target.value, 10));
       setPage(0);
     };
-
-    const filterGender = async (gender) => {
-      await fetchFilm()
-      const filtered = casts?.filter(cast => cast.gender === gender)
-      setCasts(filtered)
-    }
+    
+    useEffect(()=> {
+      const filteredMale = casts?.filter(cast => cast.gender === 'male')
+      const filteredFemale =  castsCopy?.filter(cast => cast.gender === 'female')
+      setMale(filteredMale)
+      setFemale(filteredFemale)
+    }, [casts, castsCopy])
 
   return (
     <Layout>
@@ -156,7 +163,7 @@ const Home = () => {
                   <p className='characters'>Characters</p>
                   <div className='selected_table'>
                         <div className='filter'>
-                          <p>Filter by: Male <span onClick={()=>{filterGender('male')}}><FaMale/></span> Female: <span onClick={()=>{filterGender('female')}}><FaFemale/></span> All <span onClick={()=> {fetchFilm()}}><HiOutlineRefresh/></span></p>
+                          <p>Filter by: Male <span onClick={()=>{setCasts(male)}}><FaMale/></span> Female: <span onClick={()=>{setCasts(female)}}><FaFemale/></span> All <span onClick={()=> {setCasts(globalCasts)}}><HiOutlineRefresh/></span></p>
                         </div>
                         {casts.length > 0 ? (
                           <TableContainer component={Paper} sx={{backgroundColor: 'inherit'}}>
@@ -185,7 +192,7 @@ const Home = () => {
                               <TableFooter>
                                   <TableRow>
                                     <TableCell colSpan={3}>Total no of characters: {rowsPerPage - emptyRows}</TableCell>
-                                    <TableCell colSpan={3}>Total height of characters: {formatter({prefix: '', suffix: ''})(Math.floor(total_heights))}cm ({formatter({prefix: '', suffix: ''})(Math.floor(total_heights/0.0328084))}ft/{formatter({prefix: '', suffix: ''})(Math.floor(total_heights/0.3937))}in)</TableCell>
+                                    <TableCell colSpan={3}>Total height of characters: {formatter({prefix: '', suffix: ''})(Math.floor(total_heights))}cm ({formatter({prefix: '', suffix: ''})(Math.floor((total_heights*0.393700) / 12))}ft {formatter({prefix: '', suffix: ''})(Math.round((((total_heights*0.393700) / 12) - Math.floor((total_heights*0.393700) / 12)) * 12))}in)</TableCell>
                                   </TableRow>
                               </TableFooter>
                             </Table>
