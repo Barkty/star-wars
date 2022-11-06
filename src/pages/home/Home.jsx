@@ -14,15 +14,15 @@ import { Paper, Skeleton, Stack, Table, TableBody, TableCell, TableContainer, Ta
 import formatter from 'format-number'
 import Movie from 'components/card/Movie'
 import Marquee from "react-fast-marquee";
+import useContextGetter from 'hooks/useContextGetter'
 
 const Home = () => {
+  const { movieCast, getMovies, getMovie, getMovieCast } = useContextGetter()
   const [movies, setMovies] = useState([])
   const [select, setSelect] = useState(false)
   const [selected, setSelected] = useState(false)
   const [film, setFilm] = useState([])
   const [casts, setCasts] = useState([])
-  const [castsCopy, setCastsCopy] = useState([])
-  const [globalCasts, setGlobalCasts] = useState([])
   const [female, setFemale] = useState([])
   const [male, setMale] = useState([])
 
@@ -31,13 +31,12 @@ const Home = () => {
       try {
         const res = await getFilms()
         setMovies(res)
+        getMovies(res)
       } catch (error) {
-
         console.log(error)
-
       }
     })()
-  }, [])
+  }, [getMovies])
 
   const fetchFilm = async (url, characters) => {
     try {
@@ -45,8 +44,8 @@ const Home = () => {
       const cast = await getCharacters(characters)
       setFilm(res)
       setCasts(cast)
-      setCastsCopy(cast)
-      setGlobalCasts(cast)
+      getMovie(res)
+      getMovieCast(cast)
     } catch (error) {
 
       console.log(error)
@@ -73,11 +72,11 @@ const Home = () => {
     };
     
     useEffect(()=> {
-      const filteredMale = casts?.filter(cast => cast.gender === 'male')
-      const filteredFemale =  castsCopy?.filter(cast => cast.gender === 'female')
+      const filteredMale = movieCast?.filter(cast => cast.gender === 'male')
+      const filteredFemale =  movieCast?.filter(cast => cast.gender === 'female')
       setMale(filteredMale)
       setFemale(filteredFemale)
-    }, [casts, castsCopy])
+    }, [movieCast])
 
   return (
     <Layout>
@@ -152,7 +151,7 @@ const Home = () => {
                       {film.opening_crawl}
                     </Marquee>
                   </div>
-                  {casts.length === 0 && (
+                  {casts?.length === 0 && (
                     <Stack spacing={2} width='660px' height='93px'>
                       <Skeleton variant="text" sx={{ fontSize: '1rem', backgroundColor: 'rgba(58, 63, 70, 0.864)' }}/>
                       <Skeleton variant="rectangular" width={660} height={60} sx={{backgroundColor: 'rgba(58, 63, 70, 0.864)'}}/>
@@ -163,7 +162,7 @@ const Home = () => {
                   <p className='characters'>Characters</p>
                   <div className='selected_table'>
                         <div className='filter'>
-                          <p>Filter by: Male <span onClick={()=>{setCasts(male)}}><FaMale/></span> Female: <span onClick={()=>{setCasts(female)}}><FaFemale/></span> All <span onClick={()=> {setCasts(globalCasts)}}><HiOutlineRefresh/></span></p>
+                          <p>Filter by: Male <span onClick={()=>{setCasts(male)}}><FaMale/></span> Female: <span onClick={()=>{setCasts(female)}}><FaFemale/></span> All <span onClick={()=> {setCasts(movieCast)}}><HiOutlineRefresh/></span></p>
                         </div>
                         {casts.length > 0 ? (
                           <TableContainer component={Paper} sx={{backgroundColor: 'inherit'}}>
