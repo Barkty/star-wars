@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Cinema, Container, Option, SelectContainer } from './styles'
+import { Cinema, Container, Option, SelectContainer, OptionPlaceholder } from './styles'
 import { motion } from "framer-motion"
 import Layout from 'layout/Layout'
 import Reviews from 'components/card/Reviews'
@@ -15,6 +15,7 @@ import formatter from 'format-number'
 import Movie from 'components/card/Movie'
 import Marquee from "react-fast-marquee";
 import useContextGetter from 'hooks/useContextGetter'
+import _ from 'lodash';
 
 const Home = () => {
   const { movieCast, getMovies, getMovie, getMovieCast } = useContextGetter()
@@ -36,7 +37,7 @@ const Home = () => {
         console.log(error)
       }
     })()
-  }, [getMovies])
+  }, [])
 
   const fetchFilm = async (url, characters) => {
     try {
@@ -112,10 +113,33 @@ const Home = () => {
                     </div>
                     {select && (
                       <div className='options_wrap'>
-                        {(select === true && movies?.results?.length === 0) && (
+                        {(select && movies.length === 0) ? (
                           <Movie.Placeholder count={6}/>
-                        )}
-                        {(movies?.results?.length > 0) && (movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
+                        ) : (select && movies?.results?.length > 0) ? (
+                          movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
+                            <Option key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
+                              <motion.div
+                                initial={{ opacity: 0, scale: 0.5 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                transition={{
+                                    duration: 2,
+                                    delay: 0.5,
+                                    ease: [0, 0.71, 0.2, 1.01]
+                                    }}
+                                >
+                                <div className='movie_image'>
+                                    <img alt='Movie' src={video}/> 
+                                </div>
+                                <div className='movie_info'>
+                                    <p className='title'>{movie?.title}</p>
+                                    <p className='info'>{movie?.opening_crawl.length > 52 ? `${movie?.opening_crawl.substring(0, 50)}...` : movie?.opening_crawl}</p>
+                                </div>
+                              </motion.div>
+                            </Option>
+                          ))
+                        ) : null}
+                        {/* {(select === true && movies?.results?.length > 0) && (
+                          movies?.results?.sort((a, b) => b?.release_date - a?.release_date)?.map(movie => (
                           <Option key={movie?.episode_id} onClick={()=>{setSelected(true); fetchFilm(movie?.url, movie?.characters)}}>
                             <motion.div
                               initial={{ opacity: 0, scale: 0.5 }}
@@ -135,7 +159,7 @@ const Home = () => {
                               </div>
                             </motion.div>
                           </Option>
-                        )))}
+                        )))} */}
                       </div>
                     )}
                   </div>

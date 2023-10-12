@@ -3,9 +3,9 @@ import { GET_MOVIES, GET_MOVIE_CHARACTERS, GET_SINGLE_MOVIE } from "./AppActions
 import AppContext from "./appContext";
 import appReducer from "./appReducer";
 
-let starWarsMovies = JSON.parse(sessionStorage.getItem('movies'))
-let singleMovie = JSON.parse(sessionStorage.getItem('movie'))
-let movieCast = JSON.parse(sessionStorage.getItem('casts'))
+let starWarsMovies = JSON.parse(sessionStorage.getItem('movies')) || []
+let singleMovie = JSON.parse(sessionStorage.getItem('movie')) || null
+let movieCast = JSON.parse(sessionStorage.getItem('casts')) || []
 
 const initialState = {
     movieCast: movieCast,

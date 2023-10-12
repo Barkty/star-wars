@@ -547,19 +547,21 @@ export const Option = styled.div`
 `
 
 export const OptionPlaceholder = styled.div`
-    width: 45%;
+    width: 100%;
     height: 93px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0px;
-    gap: 16px;
+    justify-content: space-between;
+    /* padding: 0px; */
+    /* gap: 16px; */
 
     .movie_info {
-        height: 93px;
-        width: 251px;
+        height: 100%;
+        width: 100%;
         margin-top: 25px;
         color: #ffffff;
+        /* margin-right: -1rem; */
     }
 
 `
